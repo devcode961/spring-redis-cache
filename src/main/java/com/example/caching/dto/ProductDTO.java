@@ -1,5 +1,6 @@
 package com.example.caching.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductDTO implements Serializable {
     private Long id;
     private String name;

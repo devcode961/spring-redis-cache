@@ -36,8 +36,8 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public ProductDTO updateProduct(ProductDTO productDTO) {
-        if (!productRepository.existsById(productDTO.getId())) {
+    public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
+        if (!productRepository.existsById(id)) {
             throw new RuntimeException("Could not update product.Product not found for id: " + productDTO.getId());
         }
         return ProductMapper

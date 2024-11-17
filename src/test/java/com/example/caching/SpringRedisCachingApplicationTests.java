@@ -42,19 +42,21 @@ class SpringRedisCachingApplicationTests {
     void testProductService_Get_Product_By_Id_OK() {
         // Arrange
         Long id = 1L;
+
         var product = productRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Product not found for id: " + id));
 
         // Act
-        ProductDTO productDTO = productService
-                .getProductById(id);
+        var productForId = restTemplate.getForEntity(BASE_URI + "/" + id, ProductDTO.class);
 
         // Assert
-        assert productDTO != null;
-        assert productDTO.getId().equals(product.getId());
-        assert productDTO.getName().equals(product.getName());
-        assert productDTO.getPrice().equals(product.getPrice());
-        assert productDTO.getDescription().equals(product.getDescription());
+        assert productForId != null;
+        assert productForId.getStatusCode().is2xxSuccessful();
+        assert productForId.getBody() != null;
+        assert productForId.getBody().getId().equals(id);
+        assert productForId.getBody().getName().equals(product.getName());
+        assert productForId.getBody().getPrice().equals(product.getPrice());
+        assert productForId.getBody().getDescription().equals(product.getDescription());
     }
 
     @Test
@@ -95,7 +97,7 @@ class SpringRedisCachingApplicationTests {
                 () -> new RuntimeException("Product not found for id: " + productDTO.getId()));
 
         // Act
-       var response = restTemplate.exchange(BASE_URI,
+        var response = restTemplate.exchange(BASE_URI + "/" + originalProduct.getId(),
                HttpMethod.PUT, request, ProductDTO.class);
 
         // Assert
@@ -160,7 +162,7 @@ class SpringRedisCachingApplicationTests {
 
         // Update the product in the database
         savedProduct.setName("Updated Product");
-        productService.updateProduct(savedProduct);
+        productService.updateProduct(savedProduct.getId(), savedProduct);
 
         // Third request should hit the database and return the updated product
         var response3 = restTemplate.getForEntity(BASE_URI + "/" + savedProduct.getId(), Product.class);

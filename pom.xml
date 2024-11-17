@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example.caching</groupId>
     <artifactId>spring-redis-caching</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>spring-redis-caching</name>
     <description>spring-redis-caching</description>
     <url/>
@@ -81,9 +81,23 @@
             <artifactId>postgresql</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.6.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+
     </dependencies>
 
     <build>
+        <finalName>spring-redis-example</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
