@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+#postgres data directory
+postgres/
+
 ### STS ###
 .apt_generated
 .classpath
